@@ -38,7 +38,7 @@ define([
       this._get = function(relativeUrl, params) {
         return backendSrv.datasourceRequest({
           method: 'GET',
-          url: this.url + relativeUrl,
+          url: this.url + relativeUrl + "?user.name=ambari-qa",
           params: params
         });
       };
@@ -136,7 +136,7 @@ define([
           + target.precision;
           var metricAggregator = target.aggregator === "none" ? '' : '._' + target.aggregator;
           var rate = target.transform === "rate" ? '._rate' : '';
-          return backendSrv.get(self.url + '/ws/v1/timeline/metrics?metricNames=' + target.metric + rate +
+          return backendSrv.get(self.url + '/ws/v1/timeline/metrics?user.name=ambari-qa&metricNames=' + target.metric + rate +
             metricAggregator + "&hostname=" + target.hosts + '&appId=' + target.app + '&startTime=' + from +
             '&endTime=' + to + precision).then(
             getMetricsData(target)
@@ -160,7 +160,7 @@ define([
           + target.precision;
           var metricAggregator = target.aggregator === "none" ? '' : '._' + target.aggregator;
           var rate = target.transform === "rate" ? '._rate' : '';
-          return backendSrv.get(self.url + '/ws/v1/timeline/metrics?metricNames=' + target.metric + rate
+          return backendSrv.get(self.url + '/ws/v1/timeline/metrics?user.name=ambari-qa&metricNames=' + target.metric + rate
             + metricAggregator + '&hostname=' + tHost + '&appId=' + target.app + '&startTime=' + from +
             '&endTime=' + to + precision).then(
             getMetricsData(target)
@@ -173,7 +173,7 @@ define([
           var metricAggregator = target.aggregator === "none" ? '' : '._' + target.aggregator;
           var rate = target.transform === "rate" ? '._rate' : '';
           var templatedComponent = (_.isEmpty(tComponent)) ? target.app : tComponent;
-          return backendSrv.get(self.url + '/ws/v1/timeline/metrics?metricNames=' + target.metric + rate
+          return backendSrv.get(self.url + '/ws/v1/timeline/metrics?user.name=ambari-qa&metricNames=' + target.metric + rate
             + metricAggregator + '&hostname=' + target.templatedHost + '&appId=' + templatedComponent + '&startTime=' + from +
             '&endTime=' + to + precision).then(
             allHostMetricsData(target)
@@ -186,7 +186,7 @@ define([
           + target.precision;
           var metricAggregator = target.aggregator === "none" ? '' : '._' + target.aggregator;
           var rate = target.transform === "rate" ? '._rate' : '';
-          return backendSrv.get(self.url + '/ws/v1/timeline/metrics?metricNames=' + target.queue + rate
+          return backendSrv.get(self.url + '/ws/v1/timeline/metrics?user.name=ambari-qa&metricNames=' + target.queue + rate
             + metricAggregator + '&appId=resourcemanager&startTime=' + from +
             '&endTime=' + to + precision).then(
             getMetricsData(target)
@@ -266,14 +266,6 @@ define([
           });
           var metricsDataResult = {data: _.flatten(data)};
           return $q.when(metricsDataResult);
-        });
-      };
-
-      this._get = function(relativeUrl, params) {
-        return backendSrv.datasourceRequest({
-          method: 'GET',
-          url: this.url + relativeUrl,
-          params: params
         });
       };
 
@@ -367,7 +359,7 @@ define([
 
       this.testDatasource = function () {
         return backendSrv.datasourceRequest({
-          url: this.url + '/ws/v1/timeline/metrics/metadata',
+          url: this.url + '/ws/v1/timeline/metrics/metadata?user.name=ambari-qa',
           method: 'GET'
         }).then(function(response) {
           console.log(response);
